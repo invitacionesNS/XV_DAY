@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Los 15 de Day | Rebel at Heart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rojo: #c41e3a;
+      --rojo-oscuro: #8b0000;
+      --rojo-brillante: #e63946;
+      --negro: #0f0f0f;
+      --negro-suave: #1a1a1a;
+      --blanco: #fffaf5;
+      --crema: #fff8f0;
+      --oro: #d4af37;
+      --oro-claro: #f0d77b;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--negro);
+      color: var(--negro);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* PORTADA */
+    #cover {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(160deg, #1a0a0a 0%, #2d0a0a 40%, #1a1a1a 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      cursor: pointer;
+    }
+    #cover.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .cover-content { text-align: center; padding: 20px; animation: fadeInUp 1s ease; }
+    .cover-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 900; color: var(--oro);
+      letter-spacing: 3px; margin-bottom: 30px; text-transform: uppercase;
+    }
+    .cover-logo span { color: var(--rojo-brillante); }
+    .envelope {
+      width: 280px; height: 180px;
+      background: linear-gradient(145deg, #2a0a0a, #1a0505);
+      border: 2px solid var(--oro); border-radius: 8px;
+      position: relative; margin: 0 auto 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 30px rgba(196,30,58,0.15);
+      overflow: hidden;
+    }
+    .envelope::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 90px;
+      background: linear-gradient(145deg, #3a1010, #2a0a0a);
+      clip-path: polygon(0 0, 50% 70%, 100% 0);
+      border-bottom: 1px solid var(--oro);
+    }
+    .envelope-seal {
+      position: absolute; top: 55px; left: 50%; transform: translateX(-50%);
+      width: 50px; height: 50px;
+      background: radial-gradient(circle, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+      border-radius: 50%; border: 2px solid var(--oro);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: var(--oro); z-index: 2;
+      box-shadow: 0 0 15px rgba(196,30,58,0.6);
+    }
+    .cover-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.3rem; color: var(--blanco); margin-bottom: 8px;
+      text-shadow: 0 0 20px rgba(196,30,58,0.5);
+    }
+    .cover-subtitle {
+      font-size: 1rem; color: var(--oro-claro);
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px;
+    }
+    .tap-hint {
+      font-size: 0.85rem; color: rgba(255,255,255,0.7);
+      letter-spacing: 2px; animation: pulse 2s infinite;
+    }
+    .suits-decor {
+      position: absolute; font-size: 1.6rem; opacity: 0.18; color: var(--rojo);
+      pointer-events: none;
+    }
+
+    /* CONTENIDO */
+    #main-content { display: none; opacity: 0; transition: opacity 1s ease; }
+    #main-content.visible { display: block; opacity: 1; }
+    section {
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 50px 24px; position: relative; text-align: center;
+    }
+
+    /* HERO */
+    #hero {
+      background: linear-gradient(180deg, #1a0a0a 0%, #2d0a0a 50%, #1a1a1a 100%);
+      color: var(--blanco);
+    }
+    .hero-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; color: var(--oro);
+      letter-spacing: 3px; margin-bottom: 12px; text-transform: uppercase;
+    }
+    .hero-logo span { color: var(--rojo-brillante); }
+    .hero-crowns {
+      display: flex; justify-content: center; gap: 40px; margin-bottom: 10px;
+      font-size: 1.5rem; opacity: 0.8;
+    }
+    .hero-invite {
+      font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,0.7); margin-bottom: 15px;
+    }
+    .hero-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 5.2rem; color: var(--rojo-brillante);
+      line-height: 1; margin-bottom: 8px;
+      text-shadow: 0 0 30px rgba(196,30,58,0.4);
+    }
+    .hero-age {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--oro); margin-bottom: 28px;
+      letter-spacing: 1px;
+    }
+    .hero-phrase {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 1.05rem;
+      max-width: 340px; color: rgba(255,255,255,0.9);
+      line-height: 1.6; margin-bottom: 35px; padding: 0 10px;
+    }
+    .scroll-hint {
+      font-size: 0.75rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 2px; animation: bounce 2s infinite;
+    }
+    .floating-suit {
+      position: absolute; font-size: 1.8rem; opacity: 0.12; color: var(--rojo);
+      pointer-events: none;
+    }
+
+    /* CONTADOR */
+    #countdown-section { background: var(--crema); }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--rojo-oscuro); margin-bottom: 8px;
+    }
+    .section-subtitle { font-size: 0.85rem; color: #666; margin-bottom: 30px; letter-spacing: 1px; }
+    .countdown-box { display: flex; gap: 12px; justify-content: center; margin-bottom: 18px; }
+    .countdown-item {
+      background: linear-gradient(145deg, var(--negro) 0%, #2a0a0a 100%);
+      color: white; border-radius: 12px; padding: 16px 12px; min-width: 72px;
+      border: 2px solid var(--oro); box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .countdown-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: var(--rojo-brillante);
+      display: block; line-height: 1;
+    }
+    .countdown-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--oro-claro); margin-top: 6px; display: block;
+    }
+
+    /* Mini Calendario */
+    .mini-calendar {
+      margin-top: 28px;
+      background: white;
+      border-radius: 14px;
+      padding: 16px 18px;
+      max-width: 280px;
+      width: 100%;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      border: 1px solid rgba(196,30,58,0.15);
+    }
+    .cal-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--rojo-oscuro);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 6px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #999;
+      text-align: center;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      text-align: center;
+    }
+    .cal-grid span {
+      font-size: 0.8rem;
+      padding: 6px 0;
+      border-radius: 50%;
+      color: #444;
+    }
+    .cal-grid span.empty { visibility: hidden; }
+    .cal-grid span.highlight {
+      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 3px 10px rgba(196,30,58,0.4);
+    }
+
+    /* DETALLES */
+    #details { background: linear-gradient(180deg, #1a0a0a 0%, #2d0a0a 100%); color: var(--blanco); }
+    .detail-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 16px; padding: 28px 24px;
+      max-width: 340px; width: 100%; margin-bottom: 18px;
+      backdrop-filter: blur(5px);
+    }
+    .detail-icon { font-size: 2rem; margin-bottom: 12px; }
+    .detail-label {
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--oro); margin-bottom: 8px; font-weight: 600;
+    }
+    .detail-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .detail-sub { font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 16px 32px; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+      text-decoration: none; letter-spacing: 1px; transition: all 0.3s ease;
+      border: none; cursor: pointer; text-transform: uppercase; margin-top: 10px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+      color: white; box-shadow: 0 6px 20px rgba(196,30,58,0.4);
+    }
+    .btn-primary:active { transform: scale(0.97); }
+
+    /* DRESS CODE */
+    #dresscode { background: var(--crema); }
+    .dress-box {
+      background: white; border-radius: 16px; padding: 30px 24px;
+      max-width: 340px; width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid rgba(196,30,58,0.15);
+    }
+    .dress-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--rojo-oscuro); margin-bottom: 12px;
+    }
+    .dress-text { font-size: 0.95rem; color: #444; margin-bottom: 8px; line-height: 1.5; }
+    .dress-note {
+      font-size: 0.88rem; color: var(--rojo); font-weight: 700; margin-top: 16px;
+      padding: 12px; background: rgba(196,30,58,0.07); border-radius: 10px;
+    }
+
+    /* RSVP */
+    #rsvp { background: linear-gradient(180deg, #1a0a0a 0%, #2d0a0a 100%); color: var(--blanco); }
+    .rsvp-text {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.1rem; margin-bottom: 25px; color: rgba(255,255,255,0.9);
+      max-width: 320px;
+    }
+
+    /* EXTRAS */
+    #extras { background: var(--crema); }
+    .extra-grid { display: flex; flex-direction: column; gap: 16px; max-width: 340px; width: 100%; }
+    .extra-card {
+      background: white; border-radius: 14px; padding: 22px 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
+      text-align: left; display: flex; align-items: flex-start; gap: 14px;
+    }
+    .extra-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .extra-title { font-weight: 700; font-size: 0.95rem; color: var(--rojo-oscuro); margin-bottom: 4px; }
+    .extra-desc { font-size: 0.8rem; color: #666; margin-bottom: 10px; }
+    .extra-link { font-size: 0.8rem; font-weight: 600; color: var(--rojo); text-decoration: none; }
+
+    /* CIERRE */
+    #thanks {
+      background: linear-gradient(180deg, #1a0a0a 0%, #0f0f0f 100%);
+      color: var(--blanco); min-height: 80vh;
+    }
+    .thanks-title {
+      font-family: 'Great Vibes', cursive; font-size: 2.8rem;
+      color: var(--rojo-brillante); margin-bottom: 15px;
+    }
+    .thanks-text {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      max-width: 300px; margin-bottom: 30px; color: rgba(255,255,255,0.85);
+    }
+    .crown { font-size: 2rem; color: var(--oro); margin-bottom: 20px; }
+
+    /* NAV */
+    .nav-dots {
+      position: fixed; right: 12px; top: 50%; transform: translateY(-50%);
+      z-index: 100; display: flex; flex-direction: column; gap: 10px;
+      opacity: 0; transition: opacity 0.5s;
+    }
+    .nav-dots.visible { opacity: 1; }
+    .nav-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.3); border: 1px solid rgba(212,175,55,0.5);
+      cursor: pointer; transition: all 0.3s;
+    }
+    .nav-dot.active { background: var(--rojo); border-color: var(--oro); transform: scale(1.3); }
+
+    /* MÚSICA */
+    #music-btn {
+      position: fixed; bottom: 22px; right: 18px; z-index: 200;
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 2px solid var(--oro);
+      background: linear-gradient(145deg, #1a1a1a, #2d0a0a);
+      color: var(--oro); font-size: 1.3rem;
+      display: none; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; } 50% { opacity: 1; }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); }
+    }
+    @media (max-width: 380px) {
+      .hero-name { font-size: 4.2rem; }
+      .countdown-item { min-width: 62px; padding: 12px 8px; }
+      .countdown-number { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PORTADA -->
+  <div id="cover">
+    <div class="cover-content">
+      <div class="cover-logo">Rebel <span>at</span> Heart</div>
+      <div class="envelope"><div class="envelope-seal">♛</div></div>
+      <div class="cover-title">Day</div>
+      <div class="cover-subtitle">mis 15 años</div>
+      <div class="tap-hint">TOCÁ LA PANTALLA PARA ABRIR</div>
+    </div>
+    <span class="suits-decor" style="top:8%;left:8%;">♠</span>
+    <span class="suits-decor" style="top:12%;right:10%;">♥</span>
+    <span class="suits-decor" style="bottom:15%;left:12%;">♦</span>
+    <span class="suits-decor" style="bottom:10%;right:8%;">♣</span>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div id="main-content">
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-crowns"><span>♛</span><span>♛</span></div>
+      <div class="hero-logo">Rebel <span>at</span> Heart</div>
+      <div class="hero-invite">Estás invitado/a a celebrar</div>
+      <div class="hero-name">Day</div>
+      <div class="hero-age">mis 15 años</div>
+      <p class="hero-phrase" id="frase">
+        “En un mundo de cartas, rosas y magia rebelde… Day abre las puertas de su corazón para celebrar sus 15 años. ¡Ven a ser parte de esta noche inolvidable!”
+      </p>
+      <div class="scroll-hint">↓ Deslizá para continuar</div>
+
+      <span class="floating-suit" style="top:18%;left:8%;">♠</span>
+      <span class="floating-suit" style="top:22%;right:9%;">♥</span>
+      <span class="floating-suit" style="bottom:22%;left:10%;">♦</span>
+      <span class="floating-suit" style="bottom:18%;right:8%;">♣</span>
+    </section>
+
+    <!-- CONTADOR -->
+    <section id="countdown-section">
+      <div class="section-title">¡Llegó el momento!</div>
+      <div class="section-subtitle">FALTAN</div>
+      
+      <div class="countdown-box" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-number" id="days">00</span>
+          <span class="countdown-label">Días</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="hours">00</span>
+          <span class="countdown-label">Hs</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="minutes">00</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="seconds">00</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETALLES -->
+    <section id="details">
+      <div class="section-title" style="color:var(--oro);">La Fiesta</div>
+      <div class="section-subtitle" style="color:rgba(255,255,255,0.6);">Todo lo que necesitás saber</div>
+      <div class="detail-card">
+        <div class="detail-icon">📅</div>
+        <div class="detail-label">Fecha & Hora</div>
+        <div class="detail-value">14 de Noviembre</div>
+        <div class="detail-sub">2026 · 22:30 hs</div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">📍</div>
+        <div class="detail-label">Lugar</div>
+        <div class="detail-value" style="font-size:1.2rem;">Por confirmar</div>
+        <div class="detail-sub">Dirección completa aquí</div>
+        <a href="https://maps.app.goo.gl/k756wP3vAy6MxF2C8" class="btn btn-primary" style="margin-top:16px;padding:13px 24px;font-size:0.82rem;">
+          📍 Cómo llegar
+        </a>
+      </div>
+    </section>
+
+    <!-- DRESS CODE -->
+    <section id="dresscode">
+      <div class="section-title">Dress Code</div>
+      <div class="section-subtitle">¿Cómo venimos?</div>
+      <div class="dress-box">
+        <div class="dress-title">Elegante Rebelde</div>
+        <p class="dress-text">
+          Estilo sofisticado con un toque de actitud.
+        </p>
+        <p class="dress-note">
+          ♛ Colores reservados: negro, rojo, dorado y blanco
+        </p>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp">
+      <div class="section-title" style="color:var(--oro);">Cuento con vos</div>
+      <p class="rsvp-text">
+        Tu presencia es el mejor regalo.<br>
+        Confirmame tu asistencia y hagamos de esta noche algo épico.
+      </p>
+      <p style="font-size:0.85rem; color: var(--oro); margin-bottom: 20px; font-weight: 600;">
+        ⏳ La confirmación debe realizarse hasta el 31 de octubre
+      </p>
+      <a href="https://wa.me/5493855143567?text=Hola!%20Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Day%20%E2%9D%A4%EF%B8%8F" 
+         class="btn btn-primary" style="width:100%;max-width:300px;">
+        💌 Confirmar asistencia
+      </a>
+    </section>
+
+    <!-- EXTRAS -->
+    <section id="extras">
+      <div class="section-title">Más para esta noche</div>
+      <div class="section-subtitle">Hagamos que sea inolvidable</div>
+      <div class="extra-grid">
+        <div class="extra-card">
+          <div class="extra-icon">🎵</div>
+          <div>
+            <div class="extra-title">Playlist</div>
+            <div class="extra-desc">Sumá esa canción que no puede faltar</div>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScrHcMFNUJ2f5fqczGaB7nytAKZutFkZVk4HsJGQdBy6EEj2w/viewform" class="extra-link">Sugerir canción →</a>
+          </div>
+        </div>
+        <div class="extra-card">
+          <div class="extra-icon">📸</div>
+          <div>
+            <div class="extra-title">Álbum compartido</div>
+            <div class="extra-desc">Subí acá tus fotos y videos de la fiesta</div>
+            <a href="https://drive.google.com/drive/folders/1Zf4BP14GuMBrk6Fckmi7o0rlD8jHBrW7?usp=sharing" class="extra-link">Subir recuerdos →</a>
+          </div>
+        </div>
+        <div class="extra-card">
+          <div class="extra-icon">🎁</div>
+          <div>
+            <div class="extra-title">Regalo</div>
+            <div class="extra-desc">El mejor regalo es que vengas, pero si deseás colaborar...</div>
+            <span class="extra-link" style="cursor:default;">Alias: Dayla.XV</span>
+          </div>
+        </div>
+        <div class="extra-card">
+          <div class="extra-icon">📱</div>
+          <div>
+            <div class="extra-title">Instagram</div>
+            <div class="extra-desc">Etiquetame en tus fotos y videos</div>
+            <a href="https://www.instagram.com/evan.anriquez" class="extra-link" target="_blank">@evan.anriquez →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CIERRE -->
+    <section id="thanks">
+      <div class="crown">♛</div>
+      <div class="thanks-title">¡Te espero!</div>
+      <p class="thanks-text">
+        Gracias por acompañarme en este momento tan especial.<br><br>
+        ¡A darlo todo!
+      </p>
+      <div style="font-size:0.8rem;color:var(--oro);letter-spacing:2px;margin-top:20px;">
+        REBEL AT HEART · DAY XV
+      </div>
+    </section>
+  </div>
+
+  <!-- DOTS -->
+  <div class="nav-dots" id="navDots">
+    <div class="nav-dot active" data-target="hero"></div>
+    <div class="nav-dot" data-target="countdown-section"></div>
+    <div class="nav-dot" data-target="details"></div>
+    <div class="nav-dot" data-target="dresscode"></div>
+    <div class="nav-dot" data-target="rsvp"></div>
+    <div class="nav-dot" data-target="extras"></div>
+    <div class="nav-dot" data-target="thanks"></div>
+  </div>
+
+  <!-- MÚSICA -->
+  <button id="music-btn" aria-label="Música">🔊</button>
+  <audio id="bg-music" loop preload="auto">
+    <source src="Kylie Cantrall - Bad Reputation (From Descendants The Rise of Red ) [Lyrics].mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.textContent = '🔇';
+        isPlaying = false;
+      } else {
+        music.play().then(() => {
+          musicBtn.textContent = '🔊';
+          isPlaying = true;
+        }).catch(() => { musicBtn.textContent = '🔇'; });
+      }
+    }
+    musicBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleMusic();
+    });
+
+    function openInvitation() {
+      const cover = document.getElementById('cover');
+      const main = document.getElementById('main-content');
+      const dots = document.getElementById('navDots');
+      cover.classList.add('hidden');
+      music.play().then(() => {
+        isPlaying = true;
+        musicBtn.textContent = '🔊';
+      }).catch(() => {
+        isPlaying = false;
+        musicBtn.textContent = '🔇';
+      });
+      setTimeout(() => {
+        main.classList.add('visible');
+        dots.classList.add('visible');
+        musicBtn.style.display = 'flex';
+        document.body.style.overflow = 'auto';
+      }, 600);
+    }
+
+    const coverEl = document.getElementById('cover');
+    coverEl.addEventListener('click', openInvitation);
+    coverEl.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      openInvitation();
+    }, {passive: false});
+
+    const targetDate = new Date('2026-11-14T22:30:00-03:00').getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      if (distance < 0) {
+        document.getElementById('countdown').innerHTML = 
+          '<div style="font-size:1.3rem;color:#c41e3a;font-family:Playfair Display,serif;">¡Es hoy! ¡La magia comenzó!</div>';
+        return;
+      }
+      document.getElementById('days').textContent = String(Math.floor(distance / (1000*60*60*24))).padStart(2,'0');
+      document.getElementById('hours').textContent = String(Math.floor((distance % (1000*60*60*24)) / (1000*60*60))).padStart(2,'0');
+      document.getElementById('minutes').textContent = String(Math.floor((distance % (1000*60*60)) / (1000*60))).padStart(2,'0');
+      document.getElementById('seconds').textContent = String(Math.floor((distance % (1000*60)) / 1000)).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    document.querySelectorAll('.nav-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = document.getElementById(dot.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+    const sections = document.querySelectorAll('section');
+    const dots = document.querySelectorAll('.nav-dot');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          dots.forEach(d => d.classList.remove('active'));
+          const active = document.querySelector(`.nav-dot[data-target="${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(sec => observer.observe(sec));
+    document.body.style.overflow = 'hidden';
+  </script>
+</body>
+</html>
